@@ -59,7 +59,8 @@ menu.database =
   change: function()
   {
     var value = $(this).val();
-    $.get('/database/pick', {name: value}, menu.database.changed, 'json');
+    if (!value){return;}
+    $.get('/database/use', {name: value}, menu.database.changed, 'json');
   },
   changed: function(r)
   {

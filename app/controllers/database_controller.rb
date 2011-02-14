@@ -1,5 +1,5 @@
 class DatabaseController < ApplicationController
-  def pick
+  def use
     @context.database = params[:name]
     render :json => 
     {
