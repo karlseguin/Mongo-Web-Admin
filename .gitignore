@@ -9,4 +9,4 @@ all.css.gz
 config/config.yml
 vendor/gems/
 .bundle
-.DS_STORE
+.DS_Store
