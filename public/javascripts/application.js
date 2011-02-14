@@ -60,11 +60,7 @@ menu.database =
   {
     var value = $(this).val();
     if (!value){return;}
-    $.get('/database/use', {name: value}, menu.database.changed, 'json');
-  },
-  changed: function(r)
-  {
-    context.select(r.name, r.collections)
+    executor.rawExecute('use ' + value + ';');
   },
   context: function(type, context)
   {

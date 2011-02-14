@@ -6,9 +6,7 @@ var executor =
   },
   execute: function(text)
   {
-    var command = executor.special[text];
-    try { command = eval(text); }
-    catch(error) {  }
+    var command = executor.getCommand(text);
     if (!command || !command.mongo_serialize)
     {
       $('#history').inputHistory({command: 'add', type: 'error', text: text})
@@ -20,7 +18,20 @@ var executor =
       .error(function(r){executor.executed('error', r.responseText, start);});
     return true;
   },
-
+  getCommand: function(text)
+  {
+    for(var i = 0; i < executor.specials.length; ++i)
+    {
+      var matches = executor.specials[i].exec(text);
+      if (matches != null)
+      {
+        return executor.callbacks[i].with(matches);
+      }
+    }
+    try { return eval(text); }
+    catch(error) { return null;  }
+  },
+  
   executed: function(status, value, start)
   {
     var $input = $('#input');
@@ -32,6 +43,7 @@ var executor =
   
   quit:
   {
+    with: function(params){return this;},
     mongo_serialize: function()
     {
       return {endpoint: 'database', command: 'quit'}
@@ -43,6 +55,7 @@ var executor =
   },
   showDbs:
   {
+    with: function(params){return this;},
     mongo_serialize: function()
     {
       return {endpoint: 'database', command: 'list'}
@@ -56,6 +69,7 @@ var executor =
   },
   showCollections:
   {
+    with: function(params){return this;},
     mongo_serialize: function()
     {
       return {endpoint: 'database', command: 'collections'}
@@ -66,12 +80,24 @@ var executor =
       for(var i = 0; i < collections.length; ++i) { html += '<p>' + collections[i] + '</p>'; }
       return html;
     }  
+  },
+  useDb:
+  {
+    with: function(params)
+    {
+      this._name = params[1];
+      return this;
+    },
+    mongo_serialize: function(name)
+    {
+      return {endpoint: 'database', command: 'use', name: this._name }
+    },
+    response: function(r)
+    {
+      context.select(r.name, r.collections)
+      $('#database').val(r.name);
+    }  
   }
 };
-executor.special = 
-{
-  'quit();': executor.quit,
-  'show dbs;': executor.showDbs,
-  'show collections;': executor.showCollections,
-  'db.getCollectionNames();': executor.showCollections,
-};
+executor.specials = [/quit\(\);/, /show dbs;/, /show collections;/, /db.getCollectionNames\(\);/, /use (\w+);/]; 
+executor.callbacks = [executor.quit, executor.showDbs, executor.showCollections, executor.showCollections, executor.useDb];
