@@ -26,7 +26,7 @@
         },
         keyPressed: function(e)
         {
-          if (e.which == 13 && /;\s*$/m.test($input.val())) { return self.triggered(); }
+          if (e.which == 13 && /;\s*$/m.test($input.val()) && $input.selectionStart() == $input.val().length) { return self.triggered(); }
           self.adjust(e.which == 13 ? 1 :0);
           if (e.which == 38) { return self.selectPrevious(); }
           if (e.which == 40) { return self.selectNext(); }
@@ -55,23 +55,20 @@
         set: function(text)
         {
           $input.val(text);
-          self.adjust();
+          self.adjust(0);
           $input.focus();
-          if (input.setSelectionRange) 
-          {
-            input.setSelectionRange(text.length,text.length);
-          }
-          $input.focus();
+          $input.setSelectionRange(text.length,text.length);
         },
         selectPrevious: function()
         {
-          if ($input.val().indexOf('\n') != -1) { return true; }
+          var firstNewLine = $input.val().indexOf('\n'); 
+          if (firstNewLine != -1 && firstNewLine <= $input.selectionStart()) { return true; }
           options.history.inputHistory({command: 'selectPrevious'});
           return false;
         },
         selectNext: function()
         {
-          if ($input.val().indexOf('\n') != -1) { return true; }
+          if ($input.val().indexOf('\n', $input.selectionStart()) != -1) { return true; }
           options.history.inputHistory({command: 'selectNext'});
           return false;
         },

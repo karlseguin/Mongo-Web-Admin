@@ -10,3 +10,4 @@ config/config.yml
 vendor/gems/
 .bundle
 .DS_Store
+db/**

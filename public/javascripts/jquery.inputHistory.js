@@ -55,6 +55,10 @@
         },
         selectPrevious: function()
         {
+          if (index == 0)
+          {
+            unsaved = options.target.val();
+          }
           var i = count - (index + 1);  
           if (i < 0) { return; }
           ++index;
@@ -64,7 +68,7 @@
         {
           var i = count - (index - 1);  
           if (i == count) { index = 0; }
-          if (i >= count) { options.target.commandInput({command: 'set', text: ''}); return; }
+          if (i >= count) { options.target.commandInput({command: 'set', text: unsaved}); return; }
           --index;
           $container.children(':eq(' + i + ')').click();
         }

@@ -42,6 +42,8 @@ function executed(status, value, start)
   $('#results').html(value);
 }
 
+
+
 var explorer = {};
 explorer.collections = 
 {
