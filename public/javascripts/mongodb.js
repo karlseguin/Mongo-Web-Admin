@@ -53,7 +53,7 @@ function mongo_find(selector, fields, collection)
   
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collections', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit};
+    return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit};
   };
   
   this.response = function(r)
@@ -69,7 +69,7 @@ function mongo_count(selector, collection)
 
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collections', command: 'count', collection: this._collection._name, selector: this._selector};
+    return {endpoint: 'collection', command: 'count', collection: this._collection._name, selector: this._selector};
   };
 
   this.response = function(r, command)
@@ -84,7 +84,7 @@ function mongo_info(collection)
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collections', command: 'info', collection: this._collection._name};
+    return {endpoint: 'collection', command: 'info', collection: this._collection._name};
   };
 
   this.response = function(r)
