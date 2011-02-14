@@ -1,0 +1,21 @@
+#explorer{width:250px;height:100%;float:left;border-right:2px solid #ddd;padding-top:10px;}
+#history{overflow:auto;height:250px;}
+#results{overflow:auto;margin-top:37px;padding:20px;font-family:menlo;}
+
+/*#history{border:1px solid blue;}
+#results{border:1px solid green;}*/
+
+#explorer ul li{padding:4px 0 4px 10px;border-bottom:1px solid #eee;cursor:pointer;}
+#explorer ul li:hover{background:#eee;}
+#explorer h3{margin-left:5px;}
+
+#history > div {border-bottom:1px solid #e0e0e0;padding:15px 5px;cursor:pointer;}
+#history > div.error{background:#fee;}
+#history > div.error:hover{background:#edd;}
+#history > div.ok{background:#f0fff0;}
+#history > div.ok:hover{background:#ded;}
+#history > div .time{float:right;}
+
+#input{overflow:hidden;position:fixed;left:252px;height:15px;font-size:1em;padding:10px;font-family:menlo;border:solid #ccc;border-width:1px 0;}
+#input:focus{outline:none;}
+#input.processing{background:#f0f0f0;color:#999;background:url('../images/loading.gif') repeat-y;}

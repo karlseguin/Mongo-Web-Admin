@@ -1,0 +1,8 @@
+.dialogOverlay{position:fixed;left:0px;top:0px;width:100%;height:100%;display:none;background:#000;z-index:99;opacity:0.5;}
+.dialog{background:#f6f6f6;padding:2px;-moz-box-shadow:2px 2px 2px #222;-webkit-box-shadow:2px 2px 2px #222;box-shadow:2px 2px 2px #222;}
+.dialog .controls{float:right;}
+.dialog .controls input{margin:0px 0px 0px 20px;}
+.dialog .header {border:1px solid #ccc; background:#eee;display:block;z-index:3200; height:40px;margin-bottom:10px;}
+.dialog .header span{color:#444;font-size:1.3em;font-weight:bold;padding:9px 0px 0px 8px;display:block;float:left;}
+.dialog .header a{cursor:pointer;display:block;width:30px;height:30px;background:url('../images/close.png') no-repeat;float:right;margin:10px 0px 0px 0px;}
+.dialog .header a:hover{background:url('../images/close_o.png') no-repeat}

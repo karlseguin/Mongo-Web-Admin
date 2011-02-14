@@ -1,0 +1,16 @@
+<div>
+  <div class="title">Connection Information</div>
+	<%= form_for :connection, :url => {:action => 'connecting'}, :html => {:id => 'connect'} do |f| %>
+  <div class="field">
+    <label>address</label>
+    <input type="text" name="connection[host]" value="127.0.0.1" class="r" />
+  </div>
+  <div class="field">
+    <label>port</label>
+    <input type="text" name="connection[port]" value="27017" class="r" />
+  </div>
+  <div class="buttons">
+    <input type="submit" value="connect" class="button r" />
+  </div>
+  <% end -%>
+</div>
