@@ -11,13 +11,10 @@ menu.logout =
 {
   clicked: function()
   {
-    $.get('/home/logout', null, menu.logout.loggedOut, 'json');
-  },
-  loggedOut: function(r)
-  {
-    context.erase();
+    executor.rawExecute('quit();');
   }
-}
+};
+
 menu.about =
 {
   clicked: function()

@@ -1,7 +1,7 @@
 $(document).ready(function()
 {
   var $history = $('#history');
-  var $input = $('#input').commandInput({trigger: execute, history: $history});
+  var $input = $('#input').commandInput({trigger: executor.execute, history: $history});
   var $history = $history.inputHistory({target: $input});
   $('#collections').delegate('li', 'click', explorer.collections.clicked);
   $(window).resize(setHeight);
@@ -14,34 +14,6 @@ $(document).ready(function()
     $input.width($history.width()-20);
   };
 });
-
-function execute(text)
-{
-  var command = {}
-  try { command = eval(text); }
-  catch(error) { }
-  
-  if (!command.mongo_serialize)
-  {
-    $('#history').inputHistory({command: 'add', type: 'error', text: text})
-    return;
-  }
-  var start = new Date();
-  var parameters = command.mongo_serialize();
-  $.get('/collection/' + parameters['command'], parameters, function(r){executed('ok', command.response(r), start);}, 'json')
-    .error(function(r){executed('error', r.responseText, start);});
-  return true;
-};
-
-function executed(status, value, start)
-{
-  var $input = $('#input');
-  var text = $input.val();  
-  $input.commandInput({command: 'unlock'});
-  $('#history').inputHistory({command: 'add', type: status, text: text, time: new Date() - start + ' ms'});
-  $('#results').html(value);
-}
-
 
 
 var explorer = {};
@@ -63,7 +35,7 @@ explorer.collections =
   },
   clicked: function()
   {
-    $('#input').val('db.' + $(this).text() + '.info();').trigger('trigger');
+    executor.rawExecute('db.' + $(this).text() + '.info();');
   }
 }
 context.register(explorer.collections.context)

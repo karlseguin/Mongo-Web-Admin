@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @context = session[:context]
     if @context.nil? then
       @context = Context.new({:port => 0})
       @databases = 'null'
@@ -28,10 +27,5 @@ class HomeController < ApplicationController
       render :text => e.message, :status => 500
     end
     render :json => {:databases => context.database_names.sort, :host => connection.host, :port => connection.port}
-  end
-  
-  def logout
-    session.delete :context
-    render :json => {:ok => true}, :layout => false
   end
 end

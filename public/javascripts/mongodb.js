@@ -17,8 +17,9 @@ var db =
     {
       if (typeof db[property] == 'object') { delete db[property]; }
     }
-  }  
+  },
 };
+
 context.register(db.__context)
 
 function collection(name)
@@ -52,7 +53,7 @@ function mongo_find(selector, fields, collection)
   
   this.mongo_serialize = function()
   {
-    return {command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit};
+    return {endpoint: 'collections', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit};
   };
   
   this.response = function(r)
@@ -68,7 +69,7 @@ function mongo_count(selector, collection)
 
   this.mongo_serialize = function()
   {
-    return {command: 'count', collection: this._collection._name, selector: this._selector};
+    return {endpoint: 'collections', command: 'count', collection: this._collection._name, selector: this._selector};
   };
 
   this.response = function(r, command)
@@ -83,7 +84,7 @@ function mongo_info(collection)
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {command: 'info', collection: this._collection._name};
+    return {endpoint: 'collections', command: 'info', collection: this._collection._name};
   };
 
   this.response = function(r)
