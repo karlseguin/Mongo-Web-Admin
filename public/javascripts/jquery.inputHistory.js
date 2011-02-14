@@ -22,6 +22,7 @@
       var $container = $(this);
       var count = 0;
       var index = 0;
+      var unsaved = '';
       var self =
       {
         initialize: function() 
