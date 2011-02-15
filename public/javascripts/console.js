@@ -11,6 +11,7 @@ $(document).ready(function()
   {
     var height = $(window).height() - $('#menu').height() - $input.height() - 30;
     $('#explorer').height(height);
+    $('#results').height(height - $('#history').height()-50);
     $input.width($history.width()-20);
   };
 });
