@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :ensure_local, :load_context
+  #before_filter :ensure_local, :load_context
   
-  #rescue_from StandardError, :with => :handle_error
+  rescue_from StandardError, :with => :handle_error
 
   def handle_error(exception)
     render :text => exception.message, :status => 500
