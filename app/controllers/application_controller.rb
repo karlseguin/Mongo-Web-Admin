@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  #before_filter :ensure_local, :load_context
+  before_filter :ensure_local, :load_context
   
   rescue_from StandardError, :with => :handle_error
 
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
   
   def ensure_local
-    render :text => 'request must be local', :status => 400 unless request.local?
+    #render :text => 'request must be local', :status => 400 unless request.local?
   end
   
   def load_context
