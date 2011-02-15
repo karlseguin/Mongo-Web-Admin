@@ -35,7 +35,7 @@ explorer.collections =
   },
   clicked: function()
   {
-    executor.rawExecute('db.' + $(this).text() + '.info();');
+    executor.rawExecute('db.' + $(this).text() + '.stats();');
   }
 }
 context.register(explorer.collections.context)

@@ -33,9 +33,9 @@ function collection(name)
   {
     return new mongo_count(selector, this);
   };
-  this.info = function()
+  this.stats = function()
   {
-    return new mongo_info(this);
+    return new mongo_stats(this);
   }
 };
 
@@ -79,12 +79,12 @@ function mongo_count(selector, collection)
   };
 };
 
-function mongo_info(collection)
+function mongo_stats(collection)
 {
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'info', collection: this._collection._name};
+    return {endpoint: 'collection', command: 'stats', collection: this._collection._name};
   };
 
   this.response = function(r)

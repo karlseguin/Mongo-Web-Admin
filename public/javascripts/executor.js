@@ -1,5 +1,6 @@
 var executor = 
 {
+  invalid: {},
   rawExecute: function(command)
   {
     $('#input').val(command).trigger('trigger');
@@ -7,10 +8,15 @@ var executor =
   execute: function(text)
   {
     var command = executor.getCommand(text);
-    if (!command || !command.mongo_serialize)
+    if (command == executor.invalid)
     {
       $('#history').inputHistory({command: 'add', type: 'error', text: text})
       return;
+    }
+    if (!command || !command.mongo_serialize)
+    {
+      $('#history').inputHistory({command: 'add', type: 'ok', text: text})
+      return;      
     }
     var start = new Date();
     var parameters = command.mongo_serialize();
@@ -29,7 +35,7 @@ var executor =
       }
     }
     try { return eval(text); }
-    catch(error) { return null;  }
+    catch(error) { return executor.invalid;  }
   },
   
   executed: function(status, value, start)

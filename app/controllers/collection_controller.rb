@@ -9,7 +9,7 @@ class CollectionController < ApplicationController
     collection = db.collection(params[:collection])
     render :json => {:count => collection.find(params[:selector] || {}).count }
   end
-  def info
+  def stats
     render :json => {:ok => true}
   end
 end

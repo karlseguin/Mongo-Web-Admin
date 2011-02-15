@@ -26,11 +26,18 @@
         },
         keyPressed: function(e)
         {
-          if (e.which == 13 && /;\s*$/m.test($input.val()) && $input.selectionStart() == $input.val().length) { return self.triggered(); }
+          if (self.shouldSubmit(e)) { return self.triggered(); }
           self.adjust(e.which == 13 ? 1 :0);
           if (e.which == 38) { return self.selectPrevious(); }
           if (e.which == 40) { return self.selectNext(); }
           return true;
+        },
+        shouldSubmit: function(e)
+        {
+          if (e.which != 13) { return false; }
+          if (e.ctrlKey) { return true; }
+          if (/;\s*$/m.test($input.val()) && $input.selectionStart() == $input.val().length) { return true; }
+          return false;
         },
         triggered: function()
         {

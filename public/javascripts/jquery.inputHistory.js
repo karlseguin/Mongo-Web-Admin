@@ -64,6 +64,7 @@
           if (i < 0) { return; }
           ++index;
           $container.children(':eq(' + i + ')').click();
+          options.target.setSelectionRange(0,0);
         },
         selectNext: function()
         {
