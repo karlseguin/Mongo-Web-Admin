@@ -2,8 +2,8 @@ class DatabaseController < ApplicationController
   def connect
     connection = Connection.new({:host => params[:host], :port => params[:port] || 27017})
     begin
-      conn = Mongo::Connection.new(connection.host, connection.port)
       context = Context.new({:host => connection.host, :port => connection.port})
+      conn = context.to_mongo
       session[:context] = context
     rescue Exception => e
       render :text => e.message, :status => 500 and return
