@@ -4,7 +4,7 @@ class CollectionController < ApplicationController
     collection = db.collection(params[:collection])
   
     selector = params[:selector]    
-    if selector.blank? || !selector.is_a?(hash)
+    if selector.blank? || !selector.is_a?(Hash)
       selector = {}      
     end
 
@@ -20,8 +20,8 @@ class CollectionController < ApplicationController
   def count
     db = @context.to_database
     collection = db.collection(params[:collection])
-    selector = params[:selector]    
-    if selector.blank? || !selector.is_a?(hash)
+    selector = params[:selector]   
+    if selector.blank? || !selector.is_a?(Hash)
       selector = {}      
     end
     render :json => {:count => collection.find(selector).count }
