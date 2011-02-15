@@ -5,11 +5,12 @@
 /*#history{border:1px solid blue;}
 #results{border:1px solid green;}*/
 
+#explorer > div{display:none;}
 #explorer ul li{padding:4px 0 4px 10px;border-bottom:1px solid #eee;cursor:pointer;}
 #explorer ul li:hover{background:#eee;}
 #explorer h3{margin-left:5px;}
 
-#history > div {border-bottom:1px solid #e0e0e0;padding:15px 5px;cursor:pointer;}
+#history > div {border-bottom:1px solid #e0e0e0;padding:5px;cursor:pointer;}
 #history > div.error{background:#fee;}
 #history > div.error:hover{background:#edd;}
 #history > div.ok{background:#f0fff0;}

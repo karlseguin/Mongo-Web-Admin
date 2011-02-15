@@ -18,10 +18,12 @@ var executor =
       $('#history').inputHistory({command: 'add', type: 'ok', text: text})
       return;      
     }
-    var start = new Date();
     var parameters = command.mongo_serialize();
-    $.get('/' + parameters['endpoint'] + '/' + parameters['command'], parameters, function(r){executor.executed('ok', command.response(r), start);}, 'json')
-      .error(function(r){executor.executed('error', r.responseText, start);});
+    var endpoint = parameters['endpoint'];    
+    var url = '/' + endpoint + '/' + parameters['command'];
+    var start = new Date();
+    var xhr = $.get(url, parameters, function(r){ executor.executed('ok', command.response(r), start);}, 'json');
+    xhr.error(function(r){executor.executed('error', r.responseText, start);});
     return true;
   },
   getCommand: function(text)
@@ -31,10 +33,11 @@ var executor =
       var matches = executor.specials[i].exec(text);
       if (matches != null)
       {
-        return executor.callbacks[i].with(matches);
+        var callback =  executor.callbacks[i];
+        return (callback.with) ? callback.with(matches) : callback;
       }
     }
-    try {  with(window){eval(text)}; }
+    try {  with(window){ return eval(text)}; }
     catch(error) { return executor.invalid;  }
   },
   
@@ -49,43 +52,8 @@ var executor =
   
   quit:
   {
-    with: function(params){return this;},
-    mongo_serialize: function()
-    {
-      return {endpoint: 'database', command: 'quit'}
-    },
-    response: function(r)
-    {
-      context.erase();
-    }
-  },
-  showDbs:
-  {
-    with: function(params){return this;},
-    mongo_serialize: function()
-    {
-      return {endpoint: 'database', command: 'list'}
-    },
-    response: function(databases)
-    {
-      var html = '';
-      for(var i = 0; i < databases.length; ++i) { html += '<p>' + databases[i] + '</p>'; }
-      return html;
-    }  
-  },
-  showCollections:
-  {
-    with: function(params){return this;},
-    mongo_serialize: function()
-    {
-      return {endpoint: 'database', command: 'collections'}
-    },
-    response: function(collections)
-    {
-      var html = '';
-      for(var i = 0; i < collections.length; ++i) { html += '<p>' + collections[i] + '</p>'; }
-      return html;
-    }  
+    mongo_serialize: function() { return {endpoint: 'database', command: 'quit'} },
+    response: function(r) { context.erase();}
   },
   useDb:
   {
@@ -94,16 +62,29 @@ var executor =
       this._name = params[1];
       return this;
     },
-    mongo_serialize: function(name)
-    {
-      return {endpoint: 'database', command: 'use', name: this._name }
-    },
+    mongo_serialize: function(name) { return {endpoint: 'database', command: 'use', name: this._name } },
     response: function(r)
     {
       context.select(r.name, r.collections)
       $('#database').val(r.name);
     }  
-  }
+  },
+  connect:
+  {
+    with: function(params)
+    {
+      this._host = params[1];
+      this._port = params[3];
+      return this;
+    },
+    mongo_serialize: function() { return {endpoint: 'database', command: 'connect', host: this._host, port: this._port} },
+    response: function(r) { context.new(r.host, r.port, r.databases);}
+  },
+  clear:
+  {
+    mongo_serialize: function() {return {endpoint: 'database', command: 'noop' } },
+    response: function(r) { return '';}
+  },
 };
-executor.specials = [/quit\(\);/, /show dbs;/, /show collections;/, /db.getCollectionNames\(\);/, /use (\w+);/]; 
-executor.callbacks = [executor.quit, executor.showDbs, executor.showCollections, executor.showCollections, executor.useDb];
+executor.specials = [/clear\(\);/, /quit\(\);/, /show dbs;/, /show collections;/, /use (\w+);/, /connect\(\s*['"](.*?)["'](\s*,\s*(\d*))?\s*\);/]; 
+executor.callbacks = [executor.clear, executor.quit, db.listDatabases(), db.getCollectionNames(), executor.useDb, executor.connect];

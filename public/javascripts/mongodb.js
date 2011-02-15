@@ -18,6 +18,38 @@ var db =
       if (typeof db[property] == 'object') { delete db[property]; }
     }
   },
+  getCollectionNames: function()
+  {
+    return new function()
+    {
+      this.mongo_serialize = function() { return {endpoint: 'database', command: 'collections'} };
+      this.response = function(collections) { return renderer.simpleList(collections); }
+    };
+  },
+  stats: function()
+  {
+    return new function()
+    {
+      this.mongo_serialize = function() { return {endpoint: 'database', command: 'stats'} };
+      this.response = function(r) { return renderer.generic(r); };
+    };    
+  },
+  getLastError: function()
+  {
+    return new function()
+    {
+      this.mongo_serialize = function() { return {endpoint: 'database', command: 'get_last_error'} };
+      this.response = function(r) { return renderer.generic(r); };
+    };    
+  },
+  listDatabases: function()
+  {
+    return new function()
+    {
+      this.mongo_serialize = function() { return {endpoint: 'database', command: 'list_databases'} };
+      this.response = function(databases) { return renderer.simpleList(databases); }
+    };    
+  }
 };
 
 context.register(db.__context)
@@ -27,19 +59,23 @@ function collection(name)
   this._name = name;
   this.find = function(selector, fields)
   {
-    return new mongo_find(selector, fields, this);
+    return new collection_find(selector, fields, this);
   };
   this.count = function(selector)
   {
-    return new mongo_count(selector, this);
+    return new collection_count(selector, this);
   };
   this.stats = function()
   {
-    return new mongo_stats(this);
+    return new collection_stats(this);
+  }
+  this.getIndexes = function()
+  {
+    return new collection_getIndexes(this);
   }
 };
 
-function mongo_find(selector, fields, collection)
+function collection_find(selector, fields, collection)
 {
   this._selector = selector;
   this._fields = fields;
@@ -55,14 +91,10 @@ function mongo_find(selector, fields, collection)
   {
     return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit};
   };
-  
-  this.response = function(r)
-  {
-    
-  };
+  this.response = function(r) { return renderer.generic(r); };
 };
 
-function mongo_count(selector, collection)
+function collection_count(selector, collection)
 {
   this._selector = selector;
   this._collection = collection;
@@ -79,16 +111,22 @@ function mongo_count(selector, collection)
   };
 };
 
-function mongo_stats(collection)
+function collection_stats(collection)
 {
   this._collection = collection;
   this.mongo_serialize = function()
   {
     return {endpoint: 'collection', command: 'stats', collection: this._collection._name};
   };
+  this.response = function(r) { return renderer.generic(r); };
+};
 
-  this.response = function(r)
+function collection_getIndexes(collection)
+{
+  this._collection = collection;
+  this.mongo_serialize = function()
   {
-
-  };  
-}
+    return {endpoint: 'collection', command: 'get_indexes', collection: this._collection._name};
+  };
+  this.response = function(r) { return renderer.generic(r); }; 
+};

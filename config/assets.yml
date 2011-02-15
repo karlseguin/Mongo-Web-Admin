@@ -1,0 +1,20 @@
+---
+javascript:
+  all:
+    - context
+    - context
+    - mongodb
+    - menu
+    - jquery
+    - jquery.dialog
+    - jquery.selection
+    - jquery.commandInput
+    - jquery.inputHistory
+    - console
+    - executor
+    - renderer
+css:
+  all:
+    - main
+    - console
+    - dialog

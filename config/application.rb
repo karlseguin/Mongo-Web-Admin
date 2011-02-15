@@ -6,6 +6,7 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module Mongoweb
   class Application < Rails::Application
+    config.autoload_paths += %W(#{config.root}/lib)
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
   end

@@ -63,8 +63,11 @@
           var i = count - (index + 1);  
           if (i < 0) { return; }
           ++index;
-          $container.children(':eq(' + i + ')').click();
-          options.target.setSelectionRange(0,0);
+          var $item = $container.children(':eq(' + i + ')').click();
+          if ($item.text().indexOf('\n') != -1)
+          {
+            options.target.setSelectionRange(0,0);
+          }
         },
         selectNext: function()
         {

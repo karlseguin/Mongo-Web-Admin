@@ -10,6 +10,9 @@ class CollectionController < ApplicationController
     render :json => {:count => collection.find(params[:selector] || {}).count }
   end
   def stats
-    render :json => {:ok => true}
+    render :json => @context.to_database.collection(params[:collection]).stats
+  end
+  def get_indexes
+    render :json => @context.to_database.collection(params[:collection]).index_information
   end
 end

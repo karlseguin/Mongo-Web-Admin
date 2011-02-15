@@ -1,10 +1,52 @@
-<div id="explorer">
-  <div id="collections">
-    <h3>collections</h3>
-    <ul></ul>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Mongo Web Admin</title>
+  <%= include_css_bundle 'all' %>
+  <%= include_js_bundle 'all' %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<div id="main">
+  <div id="menu">
+    <select id="database" class="hide"></select>
+    <ul>
+      <li id="aboutLink">about</li>
+      <li id="logoutLink">logout</li>
+    </ul>
+    <div id="info" class="r"></div>
+  </div>
+  
+  <div id="explorer">
+    <div id="collections">
+      <h3>collections</h3>
+      <ul></ul>
+    </div>
+  </div>
+  
+  <div id="history"></div>
+  <textarea id="input"></textarea>
+  <div id="results">
   </div>
 </div>
-<div id="history"></div>
-<textarea id="input"></textarea>
-<div id="results">
-</div>
+<script type="text/javascript">
+$(document).ready(function()
+{
+  $('#menu ul li:first').css('border-left', '2px solid #ddd');
+  $('#database').change(menu.database.change).val(context.database);
+  $('#logoutLink').click(menu.logout.clicked);
+  $('#aboutLink').click(menu.about.clicked);
+  $('#info').click(menu.info.show);
+  
+  <% if @context.host.blank? -%>
+    $('#info').click();
+  <% else -%>
+    context.new('<%=@context.host%>', <%=@context.port%>, <%=@databases.html_safe%>)
+  <% end -%>
+  <% unless @context.database.blank? -%>
+    $('#database').val('<%=@context.database%>').change();
+  <% end -%>
+});
+</script>
+</body>
+</html>
