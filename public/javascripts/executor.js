@@ -34,7 +34,7 @@ var executor =
         return executor.callbacks[i].with(matches);
       }
     }
-    try { return eval(text); }
+    try {  with(window){eval(text)}; }
     catch(error) { return executor.invalid;  }
   },
   
