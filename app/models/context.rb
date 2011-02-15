@@ -16,7 +16,8 @@ class Context
   end
   
   def database_names
-    (to_mongo.database_names - ['local', 'admin']).sort
+    ['app444307']
+    #(to_mongo.database_names - ['local', 'admin']).sort
   end
 
   def collection_names
