@@ -8,7 +8,7 @@ class Context
   end
   
   def to_mongo
-    Mongo::Connection.new(host, port)
+    Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
   end
   
   def to_database
