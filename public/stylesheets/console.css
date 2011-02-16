@@ -1,6 +1,6 @@
 #explorer{width:250px;height:100%;float:left;border-right:2px solid #ddd;padding-top:10px;}
 #history{overflow:auto;height:250px;}
-#results{overflow:auto;margin-top:37px;padding:20px;font-family:menlo, consolas, arial;}
+#results{overflow:auto;margin-top:37px;font-family:menlo, consolas, arial;}
 
 #explorer > div{display:none;}
 #explorer ul li{padding:4px 0 4px 10px;border-bottom:1px solid #eee;cursor:pointer;}
@@ -18,6 +18,11 @@
 #input:focus{outline:none;}
 #input.processing{background:#f0f0f0;color:#999;background:url('../images/loading.gif') repeat-y;}
 
-#results table{border-collapse:collapse;table-layout:fixed;width:100%;}
-#results thead td{font-weight:bold;}
-#results thead td, #results td{padding:5px;overflow:hidden;white-space:nowrap;width:250px;border-bottom:1px solid #eee;}
+#list{border:none;font-family:menlo, consolas, arial;border-collapse:collapse;font-size:90%;background:#fff;}
+#list td{border-bottom:1px solid #f0f0f0;}
+#list td > div{max-width:300px;overflow:hidden;white-space:nowrap;padding:4px 10px;}
+#list thead{font-weight:bold;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));}
+#list thead td{border-bottom:1px solid #e0e0e0;}
+#list td > div.expanded{overflow:visible;padding:10px;background:#fff;position:absolute;border:1px solid #ccc;max-width:500px;white-space:normal;-webkit-box-shadow: 1px 1px 1px #666;box-shadow: 1px 1px 1px #666;-moz-box-shadow: 1px 1px 1px #666;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;}
+#list tbody tr:hover{background:#eee;}
+#single{padding:20px;}

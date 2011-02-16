@@ -7,8 +7,9 @@ class Context
     @database = params[:database]
   end
   
-  def to_mongo
-    Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+  def to_mongo    
+#    Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+    Mongo::Connection.new(host, port)
   end
   
   def to_database
@@ -16,8 +17,8 @@ class Context
   end
   
   def database_names
-    ['app444307']
-    #(to_mongo.database_names - ['local', 'admin']).sort
+    #['app444307']
+    (to_mongo.database_names - ['local', 'admin']).sort
   end
 
   def collection_names

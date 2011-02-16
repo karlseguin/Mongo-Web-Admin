@@ -116,7 +116,7 @@ function collection_count(selector, collection)
   this.response = function(r, command)
   {
     var document = r.count == 1 ? ' document' : ' documents';
-    return r.count + document + ' in ' + this._collection._name;
+    return renderer.single(r.count + document + ' in ' + this._collection._name);
   };
 };
 

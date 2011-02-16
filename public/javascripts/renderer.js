@@ -1,6 +1,5 @@
 var renderer =
 {
-  //worst part of this system, must be fixed!
   generic: function(data)
   {
     if (!$.isArray(data)) { data = [data]; }
@@ -12,38 +11,32 @@ var renderer =
     }
     
     var table = document.createElement('table');
+    table.id = 'list';
     for(var i = 0; i < data.length; ++i)
     {
-      var row = table.insertRow();
+      var row = table.insertRow(-1);
       for(var header in headers)
       {
         var cell = row.insertCell(-1);
-        cell.innerHTML = renderer.getValue(data[i][header]);
+        cell.innerHTML = '<div>' + renderer.getValue(data[i][header]) + '</div>';
       }
     }
     var thead = table.createTHead();
-    var row = thead.insertRow();
+    var row = thead.insertRow(0);
     for(var header in headers)
     {
       var cell = row.insertCell(-1);
-      cell.innerHTML = header;
+      cell.innerHTML = '<div>' + header + '</div>';
     }
     return table;
   },
   getValue: function(object)
   {
+    if (!object) { return '';}
     if (object && typeof object == 'object') 
     { 
-      if ($.isArray(object))
-      {
-        var string = '';
-        $.each(object, function(i)
-        {
-          string += renderer.getValue(object[i]) + ',';
-        });
-        return string;
-      }
       if (object['$oid']) { return object['$oid']; }
+      return JSON.stringify(object);      
     }
     return object;
   },
@@ -51,7 +44,10 @@ var renderer =
   {
     var html = '';
     for(var i = 0; i < items.length; ++i) { html += '<p>' + items[i] + '</p>'; }
-    return html;
+    return renderer.single(html);
+  },
+  single: function(html)
+  {
+    return '<div id="single">' + html + '</div>'; 
   }
-  
 };
