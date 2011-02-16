@@ -19,11 +19,23 @@ var executor =
       return;      
     }
     var parameters = command.mongo_serialize();
-    var endpoint = parameters['endpoint'];    
-    var url = '/' + endpoint + '/' + parameters['command'];
     var start = new Date();
-    var xhr = $.get(url, parameters, function(r){ executor.executed('ok', command.response(r), start);}, 'json');
-    xhr.error(function(r){executor.executed('error', r.responseText, start);});
+    $.ajax(
+    {
+      url: '/' + parameters['endpoint'] + '/' + parameters['command'],
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(parameters),
+      dataType: 'json',
+      success: function(r)
+      {
+        executor.executed('ok', command.response(r), start);
+      },
+      error: function(r)
+      {
+        executor.executed('error', renderer.single(r.responseText), start);
+      },
+    });
     return true;
   },
   getCommand: function(text)

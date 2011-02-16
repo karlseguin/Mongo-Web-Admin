@@ -98,6 +98,7 @@ function collection_find(selector, fields, collection)
   };
   this.mongo_serialize = function()
   {
+    console.log({endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip});
     return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip};
   };
   this.response = function(r) { return renderer.generic(r); };

@@ -1,13 +1,9 @@
 class DatabaseController < ApplicationController
   def connect
     connection = Connection.new({:host => params[:host], :port => params[:port] || 27017})
-    begin
-      context = Context.new({:host => connection.host, :port => connection.port})
-      conn = context.to_mongo
-      session[:context] = context
-    rescue Exception => e
-      render :text => e.message, :status => 500 and return
-    end
+    context = Context.new({:host => connection.host, :port => connection.port})
+    context.to_mongo.close
+    session[:context] = context
     render :json => {:databases => context.database_names.sort, :host => connection.host, :port => connection.port}
   end
   
