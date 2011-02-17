@@ -3,7 +3,7 @@ class Settings
   
   def self.local_only?
     if @@settings.has_key?('local_only') 
-      return  @@settings['local_only']
+      return @@settings['local_only']
     end
     if ENV.has_key?('LOCAL_ONLY')
       return ENV['LOCAL_ONLY']
