@@ -19,6 +19,7 @@ var executor =
       return;      
     }
     var parameters = command.mongo_serialize();
+    parameters['authenticity_token'] = authenticity_token;
     var start = new Date();
     $.ajax(
     {

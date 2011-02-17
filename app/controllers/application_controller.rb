@@ -8,7 +8,9 @@ class ApplicationController < ActionController::Base
   end
   
   def ensure_local
-    render :text => 'request must be local', :status => 400 unless request.local?
+    if Settings.local_only? && !request.local?
+      render :text => 'request must be local', :status => 400
+    end
   end
   
   def load_context

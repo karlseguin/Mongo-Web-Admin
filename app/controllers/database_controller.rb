@@ -1,10 +1,9 @@
 class DatabaseController < ApplicationController
   def connect
-    connection = Connection.new({:host => params[:host], :port => params[:port] || 27017})
-    context = Context.new({:host => connection.host, :port => connection.port})
+    context = Context.new({:host => params[:host], :port => params[:port] || 27017})
     context.to_mongo.close
     session[:context] = context
-    render :json => {:databases => context.database_names.sort, :host => connection.host, :port => connection.port}
+    render :json => {:databases => context.database_names.sort, :host => context.host, :port => context.port}
   end
   
   def noop

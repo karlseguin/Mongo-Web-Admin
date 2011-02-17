@@ -1,15 +1,27 @@
 class Context
-  attr_accessor :host, :port, :database
+  attr_accessor :host, :port, :database, :user, :password
   
-  def initialize(params = {})
-    @host = params[:host]
-    @port = params[:port]
-    @database = params[:database]
+  def initialize(arg)
+    if arg.is_a?String then
+      info = Mongo::URIParser.new(arg)
+      @host = info.nodes[0][0]
+      @port = info.nodes[0][1]
+      @user = info.auths[0]['username']
+      @password = info.auths[0]['password']
+      @database = info.auths[0]['db_name']
+    else
+      @host = arg[:host]
+      @port = arg[:port]
+      @database = arg[:database]
+    end
   end
   
   def to_mongo    
-#    Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-    Mongo::Connection.new(host, port)
+    options = {}
+    unless user.blank? || password.blank?
+      options[:auths] = [{'db_name' => @database, 'username' => user, 'password' => password}]
+    end
+    Mongo::Connection.new(host, port, options)
   end
   
   def to_database
@@ -17,8 +29,7 @@ class Context
   end
   
   def database_names
-    #['app444307']
-    (to_mongo.database_names - ['local', 'admin']).sort
+    (Settings.databases || (to_mongo.database_names - ['local', 'admin'])).sort
   end
 
   def collection_names
