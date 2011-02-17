@@ -14,6 +14,11 @@ class Settings
     @@settings['auto_connect'] || ENV['MONGO_URL']
   end
   def self.databases
-    @@settings['databases'] || ENV['MONGO_DATABASES']
+    if @@settings.has_key?('databases') 
+      return @@settings['databases']
+    end
+    if ENV.has_key?('MONGO_DATABASES')
+      return ENV['MONGO_DATABASES'].split(',')
+    end
   end
 end
