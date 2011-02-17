@@ -6,7 +6,7 @@ class Settings
       return @@settings['local_only']
     end
     if ENV.has_key?('LOCAL_ONLY')
-      return ENV['LOCAL_ONLY']
+      return ENV['LOCAL_ONLY'] != 'false'
     end
     return true
   end  
