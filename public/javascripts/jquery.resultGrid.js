@@ -96,7 +96,7 @@
           if (idFirst) { self.createCell(row, '_id');}
           for(var header in headers)
           {
-            if (idFirst && headers == '_id') { continue; }
+            if (idFirst && header == '_id') { continue; }
             var cell = row.insertCell(-1);
             self.createCell(row, header);
           }
