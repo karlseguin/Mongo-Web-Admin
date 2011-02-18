@@ -87,7 +87,7 @@
             if (idFirst) { self.createCell(row, $.resultGrid.getValue(documents[i]['_id']));}
             for(var header in headers)
             {
-              if (idFirst && headers == '_id') { continue; }
+              if (idFirst && header == '_id') { continue; }
               self.createCell(row, $.resultGrid.getValue(documents[i][header]));
             }
           }
