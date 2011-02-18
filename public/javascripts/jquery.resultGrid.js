@@ -87,7 +87,7 @@
             if (idFirst) { self.createCell(row, $.resultGrid.getValue(documents[i]['_id']));}
             for(var header in headers)
             {
-              if (idFirst && header == '_id') { continue; }
+              if (header == '_id') { continue; }
               self.createCell(row, $.resultGrid.getValue(documents[i][header]));
             }
           }
@@ -96,8 +96,7 @@
           if (idFirst) { self.createCell(row, '_id');}
           for(var header in headers)
           {
-            if (idFirst && header == '_id') { continue; }
-            var cell = row.insertCell(-1);
+            if (header == '_id') { continue; }
             self.createCell(row, header);
           }
         },
