@@ -1,6 +1,5 @@
 class CollectionController < ApplicationController
   def find
-      #  p ActiveSupport::JSON.decode(request.body)
     db = @context.to_database
     collection = db.collection(params[:collection])
   
@@ -16,7 +15,7 @@ class CollectionController < ApplicationController
     options[:skip] = params[:skip].to_i if params[:skip].to_i != 0
 
     finder = collection.find(selector, options)
-    render :json => finder
+    render :json => {:documents => finder, :count => finder.count, :limit => options[:limit] || 200}
   end
   def count
     db = @context.to_database

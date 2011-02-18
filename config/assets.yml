@@ -10,6 +10,8 @@ javascript:
     - jquery.selection
     - jquery.commandInput
     - jquery.inputHistory
+    - jquery.resultGrid
+    - jquery.pager
     - console
     - executor
     - renderer

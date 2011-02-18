@@ -61,6 +61,7 @@ var executor =
     $input.commandInput({command: 'unlock'});
     $('#history').inputHistory({command: 'add', type: status, text: text, time: new Date() - start + ' ms'});
     $('#results').html(value);
+    $('#input').focus();
   },
   
   quit:

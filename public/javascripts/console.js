@@ -3,32 +3,10 @@ $(document).ready(function()
   var $history = $('#history');
   var $input = $('#input').commandInput({trigger: executor.execute, history: $history});
   var $history = $history.inputHistory({target: $input});
+  $('#pager').pager({});
   $('#collections').delegate('li', 'click', explorer.collections.clicked);
   
-  var zindex = 0;
-  $('#results').delegate('#list td div', 'dblclick', function(e)
-  {      
-     var $div = $(this);
-     if ($div.is('.expanded'))
-     {
-        $div.css({zIndex: zindex++});
-        return false;
-     }
-     var offset = $div.parent().offset();      
-     $div.addClass('expanded').css({top: offset.top-8, left: offset.left-1, zIndex: zindex++});
-     return false;
-  });
-  
-  $(window).keydown(function(e)
-  {
-     if (e.which == 27)
-     {
-        $('div.expanded').removeClass('expanded');
-        zindex = 1;
-     }
-     return true;
-  }).resize(setHeight);
-  
+  $(window).resize(setHeight);
   setHeight();
   function setHeight()
   {
@@ -37,7 +15,6 @@ $(document).ready(function()
     $('#results').height(height - $('#history').height()-10);
     $input.width($history.width()-20);
   };
-
 });
 
 
@@ -63,4 +40,4 @@ explorer.collections =
     executor.rawExecute('db.' + $(this).text() + '.stats();');
   }
 }
-context.register(explorer.collections.context)
+context.register(explorer.collections.context);

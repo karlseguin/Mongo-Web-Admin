@@ -31,7 +31,7 @@ var db =
     return new function()
     {
       this.mongo_serialize = function() { return {endpoint: 'database', command: 'stats'} };
-      this.response = function(r) { return renderer.generic(r); };
+      this.response = function(r) { return $.resultGrid.display({documents: r}, null); };
     };    
   },
   getLastError: function()
@@ -39,7 +39,7 @@ var db =
     return new function()
     {
       this.mongo_serialize = function() { return {endpoint: 'database', command: 'get_last_error'} };
-      this.response = function(r) { return renderer.generic(r); };
+      this.response = function(r) { return $.resultGrid.display({documents: r}, null); };
     };    
   },
   listDatabases: function()
@@ -98,10 +98,9 @@ function collection_find(selector, fields, collection)
   };
   this.mongo_serialize = function()
   {
-    console.log({endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip});
     return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip};
   };
-  this.response = function(r) { return renderer.generic(r); };
+  this.response = function(r) { return $.resultGrid.display(r, this.mongo_serialize()); };
 };
 
 function collection_count(selector, collection)
@@ -128,7 +127,7 @@ function collection_stats(collection)
   {
     return {endpoint: 'collection', command: 'stats', collection: this._collection._name};
   };
-  this.response = function(r) { return renderer.generic(r); };
+  this.response = function(r) { return $.resultGrid.display({documents: r}, null); };
 };
 
 function collection_getIndexes(collection)
@@ -138,5 +137,5 @@ function collection_getIndexes(collection)
   {
     return {endpoint: 'collection', command: 'get_indexes', collection: this._collection._name};
   };
-  this.response = function(r) { return renderer.generic(r); }; 
+  this.response = function(r) { return $.resultGrid.display({documents: r}, null); }; 
 };
