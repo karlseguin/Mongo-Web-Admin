@@ -9,5 +9,14 @@ var renderer =
   single: function(html)
   {
     return '<div id="single">' + html + '</div>'; 
-  }
+  },
+  count: function(r)
+  {
+    var document = r.count == 1 ? ' document' : ' documents';
+    return renderer.single(r.count + document + ' were affected');
+  },
+  ok: function()
+  {
+    return renderer.single('the command completed successfully');
+  },
 };

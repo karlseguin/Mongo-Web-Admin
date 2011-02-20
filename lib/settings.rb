@@ -2,14 +2,8 @@ class Settings
   @@settings = File.exists?(Rails.root + 'config/config.yml') ? YAML::load_file(Rails.root + 'config/config.yml') : Hash.new
   
   def self.local_only?
-    if @@settings.has_key?('local_only') 
-      return @@settings['local_only']
-    end
-    if ENV.has_key?('LOCAL_ONLY')
-      return ENV['LOCAL_ONLY'] != 'false'
-    end
-    return true
-  end  
+    self.bool_lookup('local_only', true)
+  end
   def self.auto_connect
     @@settings['auto_connect'] || ENV['MONGO_URL']
   end
@@ -20,5 +14,13 @@ class Settings
     if ENV.has_key?('MONGO_DATABASES')
       return ENV['MONGO_DATABASES'].split(',')
     end
+  end
+  def self.allow_writes?
+    self.bool_lookup('allow_writes', false)
+  end
+  def self.bool_lookup(key, default)
+    return @@settings[key] if @@settings.has_key?(key) 
+    return ENV[key.upcase] != 'false' if ENV.has_key?(key.upcase)
+    return default
   end
 end

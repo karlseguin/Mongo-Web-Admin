@@ -1,10 +1,18 @@
 #only allow local connection
+#defaults to true
 localonly: true
 
 #auto connect to the specified mongo instance
 #currently the only way to specify a username/password
+#defaults to asking poping up a connection dialog
 auto_connect: mongodb://heroku:PASSWORD@flame.mongohq.com:27071/DATABASE
 
 #list of databases to return. You must set this to your databases
 #if you don't have permission to list the databases
+#defaults to fetching the list
 databases: [DATABASE1, DATABASE2]
+
+
+#allow write operations (update, remove, ensureIndex...)
+#defaults to false
+allow_writes: true

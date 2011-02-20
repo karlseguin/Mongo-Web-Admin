@@ -28,6 +28,10 @@ class Context
     to_mongo[database]
   end
   
+  def to_collection(name)
+    to_database.collection(name)
+  end
+  
   def database_names
     (Settings.databases || (to_mongo.database_names - ['local', 'admin'])).sort
   end

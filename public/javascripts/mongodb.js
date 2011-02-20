@@ -68,11 +68,35 @@ function collection(name)
   this.stats = function()
   {
     return new collection_stats(this);
-  }
+  };
   this.getIndexes = function()
   {
     return new collection_getIndexes(this);
-  }
+  };
+  this.ensureIndex = function(fields, options)
+  {
+    return new collection_ensureIndex(fields, options, this);
+  };
+  this.dropIndex = function(fields)
+  {
+    return new collection_dropIndex(fields, this);
+  };
+  this.dropIndexes = function()
+  {
+    return new collection_dropIndexes(this);
+  };
+  this.remove = function(selector)
+  {
+    return new collection_remove(selector, this);
+  };
+  this.update = function(selector, values, upsert, multiple)
+  {
+    return new collection_update(selector, values, upsert, multiple, this);
+  };
+  this.insert = function(object)
+  {
+    return new collection_insert(object, this);
+  };
 };
 
 function collection_find(selector, fields, collection)
@@ -138,4 +162,84 @@ function collection_getIndexes(collection)
     return {endpoint: 'collection', command: 'get_indexes', collection: this._collection._name};
   };
   this.response = function(r) { return $.resultGrid.display({documents: r}, null); }; 
+};
+
+function collection_ensureIndex(fields, options, collection)
+{
+  this._fields = fields;
+  this._options = options;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'ensure_index', collection: this._collection._name, fields: this._fields, options: this._options};
+  };
+  this.response = function(r) { return renderer.ok(); }; 
+};
+
+function collection_dropIndex(fields, collection)
+{
+  this._fields = fields;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'drop_index', collection: this._collection._name, fields: this._fields};
+  };
+  this.response = function(r) { return renderer.ok(); }; 
+};
+
+function collection_dropIndexes(collection)
+{
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'drop_indexes', collection: this._collection._name};
+  };
+  this.response = function(r) { return renderer.ok(); }; 
+};
+
+function collection_remove(selector, collection)
+{
+  this._selector = selector;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'remove', selector: this._selector, collection: this._collection._name};
+  };
+  this.response = function(r) { return renderer.count(r); }; 
+};
+
+function collection_update(selector, values, upsert, multiple, collection)
+{
+  this._selector = selector;
+  this._values = values;
+  this._upsert = upsert;
+  this._multiple = multiple;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'update', selector: this._selector, values: this._values, upsert: this._upsert, multiple: this._multiple, collection: this._collection._name};
+  };
+  this.response = function(r) { return renderer.count(r); };
+};
+
+function collection_insert(object, collection)
+{
+  this._object = object;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'insert', object: this._object, collection: this._collection._name};
+  };
+  this.response = function(r) 
+  { 
+    if (!$.isArray(r)) { r = [r]; }
+    var isOrAre = r.length == 1 ? ' is' : ' are';
+    var ids = ''
+    for(var i = 0; i < r.length; ++i)
+    {
+      ids += r[i]['$oid'] + ', ';
+    }
+    ids = ids.substring(0, ids.length - 2);
+    return renderer.single('insert successful, the ' + isOrAre + ': ' + ids); 
+  };
 };
