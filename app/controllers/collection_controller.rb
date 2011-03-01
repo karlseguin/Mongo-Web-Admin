@@ -3,8 +3,7 @@ class CollectionController < ApplicationController
   def find
     collection = @context.to_collection(params[:collection])
   
-    selector = params[:selector]
-    selector = {} if selector.blank? || !selector.is_a?(Hash)
+    selector = to_selector(params[:selector])
     
     options = {}
     options[:fields] = params[:fields] if params[:fields]
@@ -17,8 +16,7 @@ class CollectionController < ApplicationController
   end
   def count
     collection = @context.to_collection(params[:collection])
-    selector = params[:selector]   
-    selector = {} if selector.blank? || !selector.is_a?(Hash)
+    selector = to_selector(params[:selector])
     render :json => {:count => collection.find(selector).count }
   end
   def stats
@@ -51,8 +49,7 @@ class CollectionController < ApplicationController
   end
   
   def remove
-    selector = params[:selector]
-    selector = {} if selector.blank? || !selector.is_a?(Hash)
+    selector = to_selector(params[:selector])
     collection = @context.to_collection(params[:collection])
     count = collection.find(selector).count
     collection.remove(selector)
@@ -62,12 +59,13 @@ class CollectionController < ApplicationController
   def update
     return missing_parameter(:values) if params[:values].blank?
     
-    selector = params[:selector]
-    selector = {} if selector.blank? || !selector.is_a?(Hash)
+    selector = to_selector(params[:selector])
+    values = to_selector(params[:values]) #this pretty much behaves like a selector as far as we are concerned
+
     collection = @context.to_collection(params[:collection])
     count = collection.find(selector).count
     options = {:safe => true, :upsert => params[:upsert] || false, :multi => params[:multiple] || false}
-    collection.update(selector, params[:values], options)
+    collection.update(selector, values, options)
     render :json => {:count => count == 0 ? 0 : params[:multiple] ? count : 1}
   end
   
@@ -80,4 +78,13 @@ class CollectionController < ApplicationController
   def build_sort(raw)
     raw.map{|k, v| [k, v == '1' ? :ascending : :descending]}
   end
+  def to_selector(raw)
+    return {} if raw.blank? || !raw.is_a?(Hash)    
+    raw.each do |key, value|
+      if value.is_a?(Hash) && value.has_key?('$oid')
+        raw[key] = BSON::ObjectId(value['$oid'])
+      end
+    end
+  end
+  
 end
