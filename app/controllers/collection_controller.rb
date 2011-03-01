@@ -83,6 +83,8 @@ class CollectionController < ApplicationController
     raw.each do |key, value|
       if value.is_a?(Hash) && value.has_key?('$oid')
         raw[key] = BSON::ObjectId(value['$oid'])
+      elsif value.is_a?(String) && BSON::ObjectId.legal?(value)
+        raw[key] = BSON::ObjectId(value)
       end
     end
   end
