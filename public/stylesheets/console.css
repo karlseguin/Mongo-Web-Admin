@@ -14,12 +14,12 @@
 #history > div.ok:hover{background:#ded;}
 #history > div .time{float:right;}
 
-#input{overflow:hidden;position:absolute;top:298px;left:252px;height:15px;font-size:1em;padding:10px;font-family:menlo, consolas, arial;border:solid #ccc;border-width:1px 0;}
+#input{overflow:hidden;position:absolute;top:298px;left:252px;height:12px;font-size:1em;padding:9px;font-family:menlo, consolas, arial;border:solid #ccc;border-width:1px 0;}
 #input:focus{outline:none;}
 #input.processing{background:#f0f0f0;color:#999;background:url('../images/loading.gif') repeat-y;}
 
 
-#grid{border:none;font-family:menlo, consolas, arial;border-collapse:collapse;font-size:90%;background:#fff;}
+#grid{border:none;font-family:menlo, consolas, arial;border-collapse:collapse;font-size:90%;background:#fff;position:relative;}
 #grid td{border-bottom:1px solid #f0f0f0;;}
 #grid td > div{max-width:300px;overflow:hidden;white-space:nowrap;padding:4px 10px;}
 #grid thead{font-weight:bold;background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));}

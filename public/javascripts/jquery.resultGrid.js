@@ -36,8 +36,9 @@
           var $div = $(this);
           if ($div.is(':not(.expanded)'))
           {
+            var tableOffset = $table.offset();
             var offset = $div.parent().offset();      
-            $div.addClass('expanded').css({top: offset.top-8, left: offset.left-1});
+            $div.addClass('expanded').css({top: offset.top-tableOffset.top-6, left: offset.left-tableOffset.left-1});
           }
           $div.css({zIndex: zindex++});
           return false;
