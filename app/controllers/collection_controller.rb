@@ -1,5 +1,5 @@
 class CollectionController < ApplicationController
-  before_filter :before_write, :except => [:find, :count, :stats, :get_indexes]
+  before_filter :before_write, :except => [:find, :count, :stats, :get_indexes, :distinct]
   def find
     collection = @context.to_collection(params[:collection])
   
