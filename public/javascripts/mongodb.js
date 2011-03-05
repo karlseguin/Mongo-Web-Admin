@@ -113,6 +113,7 @@ function collection_find(selector, fields, collection)
   this._selector = selector;
   this._fields = fields;
   this._collection = collection;
+  this._explain = false;
   
   this.limit = function(limit)
   {
@@ -129,9 +130,14 @@ function collection_find(selector, fields, collection)
     this._skip = skip;
     return this;
   };
+  this.explain = function()
+  {
+    this._explain = true;
+    return this;
+  };
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip};
+    return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip, explain: this._explain};
   };
   this.response = function(r) { return $.resultGrid.display(r, this.mongo_serialize()); };
 };
