@@ -2,17 +2,21 @@
 #history{overflow:auto;height:250px;}
 #results{overflow:auto;margin-top:37px;font-family:menlo, consolas, arial;}
 
-#explorer > div{display:none;}
+#collections{display:none;}
 #explorer ul li{padding:4px 0 4px 10px;border-bottom:1px solid #eee;cursor:pointer;}
 #explorer ul li:hover{background:#eee;}
 #explorer h3{margin-left:5px;}
+#toggleExplorer{position:absolute;bottom:5px;left:5px;cursor:pointer;}
+#toggleExplorer div{width:20px;height:20px;}
+#toggleExplorer .collapse{background:url('../images/left.png') no-repeat}
+#toggleExplorer .expand{background:url('../images/right.png') no-repeat;}
 
 #history > div {border-bottom:1px solid #e0e0e0;padding:5px;cursor:pointer;}
 #history > div.error{background:#fee;}
 #history > div.error:hover{background:#edd;}
 #history > div.ok{background:#f0fff0;}
 #history > div.ok:hover{background:#ded;}
-#history > div .time{float:right;}
+#history > div .time{float:right;;}
 
 #input{overflow:hidden;position:absolute;top:298px;left:252px;height:12px;font-size:1em;padding:9px;font-family:menlo, consolas, arial;border:solid #ccc;border-width:1px 0;}
 #input:focus{outline:none;}

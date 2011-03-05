@@ -15,8 +15,9 @@ $(document).ready(function()
     $('#results').height(height - $('#history').height()-10);
     $input.width($history.width()-20);
   };
+  
+  $('#toggleExplorer div').click(explorer.toggle);
 });
-
 
 var explorer = {};
 explorer.collections = 
@@ -39,5 +40,24 @@ explorer.collections =
   {
     executor.rawExecute('db.' + $(this).text() + '.stats();');
   }
+};
+//this whole thing sucks!
+explorer.toggle = function()
+{
+  var $explorer = $('#explorer');
+  var $this = $(this);
+  var left = 0;
+  if ($explorer.is(':visible'))
+  {
+    $this.removeClass('collapse').addClass('expand');
+    $explorer.hide(); 
+  }
+  else
+  {
+    $this.removeClass('expand').addClass('collapse');
+    $explorer.show();
+    left = $explorer.width()+2;
+  }
+  $('#input').css({left: left, width: $('#history').width()-20});
 }
 context.register(explorer.collections.context);
