@@ -103,6 +103,10 @@ function collection(name)
   {
     return new collection_insert(object, this);
   };
+  this.distinct = function(field, query)
+  {
+    return new collection_distinct(field, query, this);
+  };
 };
 
 function collection_find(selector, fields, collection)
@@ -248,4 +252,16 @@ function collection_insert(object, collection)
     ids = ids.substring(0, ids.length - 2);
     return renderer.single('insert successful, the ' + isOrAre + ': ' + ids); 
   };
+};
+
+function collection_distinct(field, query, collection)
+{
+  this._field = field;
+  this._query = query;
+  this._collection = collection;
+  this.mongo_serialize = function()
+  {
+    return {endpoint: 'collection', command: 'distinct', field: this._field, query: this._query, collection: this._collection._name};
+  };
+  this.response = function(values) { return renderer.simpleList(values); };
 };

@@ -85,11 +85,11 @@
           for(var i = 0; i < length; ++i)
           {
             var row = table.insertRow(-1);
-            if (idFirst) { self.createCell(row, $.resultGrid.getValue(documents[i]['_id']));}
+            if (idFirst) { self.createCell(row, renderer.getValue(documents[i]['_id']));}
             for(var header in headers)
             {
               if (header == '_id') { continue; }
-              self.createCell(row, $.resultGrid.getValue(documents[i][header]));
+              self.createCell(row, renderer.getValue(documents[i][header]));
             }
           }
           var thead = table.createTHead();
@@ -171,15 +171,5 @@ $.resultGrid =
       if (left[p] != right[p]) { return false; }
     }
     return true;
-  },
-  getValue: function(object)
-   {
-     if (!object) { return '';}
-     if (object && typeof object == 'object') 
-     { 
-       if (object['$oid']) { return object['$oid']; }
-       return JSON.stringify(object);      
-     }
-     return object;
-   },
+  }
 };

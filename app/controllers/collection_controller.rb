@@ -74,6 +74,10 @@ class CollectionController < ApplicationController
     render :json => id
   end
   
+  def distinct
+    render :json => @context.to_collection(params[:collection]).distinct(params[:field], to_selector(params[:query]))
+  end
+  
   private
   def build_sort(raw)
     raw.map{|k, v| [k, v == '1' ? :ascending : :descending]}

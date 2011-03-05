@@ -3,7 +3,7 @@ var renderer =
   simpleList: function(items)
   {
     var html = '';
-    for(var i = 0; i < items.length; ++i) { html += '<p>' + items[i] + '</p>'; }
+    for(var i = 0; i < items.length; ++i) { html += '<p>' + renderer.getValue(items[i]) + '</p>'; }
     return renderer.single(html);
   },
   single: function(html)
@@ -19,4 +19,14 @@ var renderer =
   {
     return renderer.single('the command completed successfully');
   },
+  getValue: function(object)
+   {
+     if (!object) { return '';}
+     if (object && typeof object == 'object') 
+     { 
+       if (object['$oid']) { return object['$oid']; }
+       return JSON.stringify(object);      
+     }
+     return object;
+   },
 };
