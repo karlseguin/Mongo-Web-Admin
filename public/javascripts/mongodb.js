@@ -64,7 +64,6 @@ function collection(name)
   this._name = name;
   this.find = function(selector, fields)
   {
-    console.log(selector);
     return new collection_find(selector, fields, this);
   };
   this.count = function(selector)

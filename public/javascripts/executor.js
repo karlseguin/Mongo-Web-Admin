@@ -60,6 +60,10 @@ var executor =
     var text = $input.val();  
     $input.commandInput({command: 'unlock'});
     $('#history').inputHistory({command: 'add', type: status, text: text, time: new Date() - start + ' ms'});
+    if (!(value instanceof jQuery) || !value.is('#grid'))
+    {
+      $('#pager').hide(); 
+    }
     $('#results').html(value);
     $('#input').focus();
   },
