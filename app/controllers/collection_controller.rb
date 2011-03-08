@@ -11,6 +11,7 @@ class CollectionController < ApplicationController
     options[:limit] = params[:limit].to_i == 0 ? 200 : params[:limit].to_i
     options[:skip] = params[:skip].to_i if params[:skip].to_i != 0
 
+    p selector
     finder = collection.find(selector, options)
         
     render :json => {:documents => finder.explain, :count => 1} and return if params[:explain]
@@ -88,8 +89,14 @@ class CollectionController < ApplicationController
   def to_selector(raw)
     return {} if raw.blank? || !raw.is_a?(Hash)    
     raw.each do |key, value|
-      if value.is_a?(Hash) && value.has_key?('$oid')
-        raw[key] = BSON::ObjectId(value['$oid'])
+      if value.is_a?(Hash) 
+        if value.has_key?('$oid')
+          raw[key] = BSON::ObjectId(value['$oid']) 
+        elsif value.has_key?('$date')
+          raw[key] = Time.at(value['$date']) 
+        else 
+          to_selector(value)
+        end
       elsif value.is_a?(String) && BSON::ObjectId.legal?(value)
         raw[key] = BSON::ObjectId(value)
       end

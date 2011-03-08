@@ -2,6 +2,10 @@ function ObjectId(value)
 {
   return {$oid: value};
 };
+Date.prototype.to_mongo = function()
+{
+  return {$date: this.getTime()/1000};
+}
 
 var db = 
 {
@@ -54,6 +58,25 @@ var db =
       this.mongo_serialize = function() { return {endpoint: 'database', command: 'list_databases'} };
       this.response = function(databases) { return renderer.simpleList(databases); }
     };    
+  },
+  toSelector: function(selector)
+  {
+    for(var property in selector)
+    {
+      if (selector.hasOwnProperty(property))
+      {
+        var value = selector[property];
+        if (value.to_mongo)
+        {
+          selector[property] = value.to_mongo();
+        }
+        else if (typeof value == 'object')
+        {
+          db.toSelector(value);
+        }
+      }
+    }
+    return selector;
   }
 };
 
@@ -137,7 +160,7 @@ function collection_find(selector, fields, collection)
   };
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: this._selector, fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip, explain: this._explain};
+    return {endpoint: 'collection', command: 'find', collection: this._collection._name, selector: db.toSelector(this._selector), fields: this._fields, limit: this._limit, sort: this._sort, skip: this._skip, explain: this._explain};
   };
   this.response = function(r) { return $.resultGrid.display(r, this.mongo_serialize()); };
 };
@@ -149,7 +172,7 @@ function collection_count(selector, collection)
 
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'count', collection: this._collection._name, selector: this._selector};
+    return {endpoint: 'collection', command: 'count', collection: this._collection._name, selector: db.toSelector(this._selector)};
   };
 
   this.response = function(r, command)
@@ -218,7 +241,7 @@ function collection_remove(selector, collection)
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'remove', selector: this._selector, collection: this._collection._name};
+    return {endpoint: 'collection', command: 'remove', selector: db.toSelector(this._selector), collection: this._collection._name};
   };
   this.response = function(r) { return renderer.count(r); }; 
 };
@@ -232,7 +255,7 @@ function collection_update(selector, values, upsert, multiple, collection)
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'update', selector: this._selector, values: this._values, upsert: this._upsert, multiple: this._multiple, collection: this._collection._name};
+    return {endpoint: 'collection', command: 'update', selector: db.toSelector(this._selector), values: db.toSelector(this._values), upsert: this._upsert, multiple: this._multiple, collection: this._collection._name};
   };
   this.response = function(r) { return renderer.count(r); };
 };
@@ -243,7 +266,7 @@ function collection_insert(object, collection)
   this._collection = collection;
   this.mongo_serialize = function()
   {
-    return {endpoint: 'collection', command: 'insert', object: this._object, collection: this._collection._name};
+    return {endpoint: 'collection', command: 'insert', object: db.toSelector(this._object), collection: this._collection._name};
   };
   this.response = function(r) 
   { 
