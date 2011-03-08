@@ -278,7 +278,7 @@ function collection_insert(object, collection)
       ids += r[i]['$oid'] + ', ';
     }
     ids = ids.substring(0, ids.length - 2);
-    return renderer.single('insert successful, the ' + isOrAre + ': ' + ids); 
+    return renderer.single('insert successful, the id' + isOrAre + ': ' + ids); 
   };
 };
 
