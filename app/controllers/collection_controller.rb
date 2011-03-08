@@ -11,7 +11,6 @@ class CollectionController < ApplicationController
     options[:limit] = params[:limit].to_i == 0 ? 200 : params[:limit].to_i
     options[:skip] = params[:skip].to_i if params[:skip].to_i != 0
 
-    p selector
     finder = collection.find(selector, options)
         
     render :json => {:documents => finder.explain, :count => 1} and return if params[:explain]
