@@ -47,7 +47,7 @@ var executor =
       if (matches != null)
       {
         var callback =  executor.callbacks[i];
-        return (callback.with) ? callback.with(matches) : callback;
+        return (callback.loadParams) ? callback.loadParams(matches) : callback;
       }
     }
     try {  with(window){ return eval(text)}; }
@@ -75,7 +75,7 @@ var executor =
   },
   useDb:
   {
-    with: function(params)
+    loadParams: function(params)
     {
       this._name = params[1];
       return this;
@@ -89,7 +89,7 @@ var executor =
   },
   connect:
   {
-    with: function(params)
+    loadParams: function(params)
     {
       this._host = params[1];
       this._port = params[3];
