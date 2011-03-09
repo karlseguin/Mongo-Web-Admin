@@ -48,7 +48,7 @@ $(document).ready(function()
   <% if @context.host.blank? -%>
     $('#info').click();
   <% else -%>
-    context.new('<%=@context.host%>', <%=@context.port%>, <%=@databases.html_safe%>)
+    context.initialize('<%=@context.host%>', <%=@context.port%>, <%=@databases.html_safe%>)
   <% end -%>
   <% unless @context.database.blank? -%>
     $('#database').val('<%=@context.database%>').change();

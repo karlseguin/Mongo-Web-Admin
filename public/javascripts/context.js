@@ -1,7 +1,7 @@
 var context = 
 {
   _listeners: [],
-  new: function(host, port, databases)
+  initialize: function(host, port, databases)
   {
     this.host = host;
     this.port = port;
