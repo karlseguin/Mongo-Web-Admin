@@ -12,8 +12,8 @@ var renderer =
   },
   count: function(r)
   {
-    var document = r.count == 1 ? ' document' : ' documents';
-    return renderer.single(r.count + document + ' were affected');
+    var document = r.count == 1 ? ' document was' : ' documents were';
+    return renderer.single(r.count + document + ' affected');
   },
   ok: function()
   {
