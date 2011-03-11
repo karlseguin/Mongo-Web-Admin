@@ -6,9 +6,9 @@ h3{font-size:1.1em;font-weight:bold;}
 p{margin:10px 0;}
 .hide{display:none;}
 
-#menu{height:45px;background:#f0f0f0;border-bottom:1px solid #ddd;}
+#menu{height:45px;background:#f0f0f0;border-bottom:1px solid #ddd;overflow:hidden;}
 #database {width:225px;float:left;position:relative;top:15px;left:5px;}
-#menu ul{margin-left:250px;font-size:0.8em;font-weight:bold;}
+#menu ul{margin-left:25px;font-size:0.8em;font-weight:bold;float:left;}
 #menu li{float:left;padding:15px 10px;border-right:1px solid #ccc;}
 #menu li:hover{background:#e0e0e0;cursor:pointer;}
 #info {float:right;margin:12px 20px 0 0;font-size:0.7em;padding:5px;background:#e6e6e6;border:1px solid #e0e0e0;cursor:pointer;}
