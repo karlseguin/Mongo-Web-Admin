@@ -1,6 +1,6 @@
 #only allow local connection
 #defaults to true
-localonly: true
+local_only: true
 
 #auto connect to the specified mongo instance
 #currently the only way to specify a username/password

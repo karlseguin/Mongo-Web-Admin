@@ -20,13 +20,15 @@ var renderer =
     return renderer.single('the command completed successfully');
   },
   getValue: function(object)
-   {
-     if (!object) { return '';}
-     if (object && typeof object == 'object') 
-     { 
-       if (object['$oid']) { return object['$oid']; }
-       return JSON.stringify(object);      
-     }
-     return object;
-   },
+  {
+    if (object === 0) { return 0; }
+    if (object === false) { return false; }
+    if (!object) { return '';}
+    if (object && typeof object == 'object') 
+    { 
+      if (object['$oid']) { return object['$oid']; }
+      return JSON.stringify(object);      
+    }
+    return object;
+  },
 };
