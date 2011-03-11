@@ -96,7 +96,7 @@ var executor =
       return this;
     },
     mongo_serialize: function() { return {endpoint: 'database', command: 'connect', host: this._host, port: this._port} },
-    response: function(r) { context.new(r.host, r.port, r.databases);}
+    response: function(r) { context.initialize(r.host, r.port, r.databases);}
   },
   clear:
   {
