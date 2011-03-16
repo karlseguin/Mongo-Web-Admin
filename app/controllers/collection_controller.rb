@@ -83,7 +83,7 @@ class CollectionController < ApplicationController
   
   private
   def build_sort(raw)
-    raw.map{|k, v| [k, v == '1' ? :ascending : :descending]}
+    raw.map{|k, v| [k, v == 1 ? :ascending : :descending]}
   end
   def to_selector(raw)
     return {} if raw.blank? || !raw.is_a?(Hash)    
