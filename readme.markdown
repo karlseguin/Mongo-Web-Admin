@@ -15,3 +15,7 @@ Mongo Web Admin works in Firefox and Chrome.
 ## Usage ##
 
 Mongo Web Admin is written in Rails. Unless you can figure out how to run it yourself, Mongo Web Admin is not ready for you (but we are working on it). Out of the box Mongo Web Admin is pretty restrictive. Check out `config/config.sample.yml` for a few options that can be placed in `config/config.yml`.
+
+## Tutorial ##
+
+http://mongly.com/ is an interactive MongoDB tutorial built using MongoWebAdmin.
